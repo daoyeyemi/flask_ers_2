@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>emotion recognition system</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="spinner-container" id="loading-spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <h1>emotion recognition system</h1>
+    {% if request.args.get('login_success') %}
+        <div class="warning-message alert alert-success">login successful! welcome, {{ session['username'] }}.</div>
+    {% endif %}
+    {% if request.args.get('username_required') %}
+            <div class="warning-message alert alert-danger">username is required!</div>
+        {% endif %}
+    <div class="video-container">
+        <img id="video-feed" src="{{ url_for('video_feed') }}">
+    </div>
+    <div class="button-container">
+        <button class="dashboard-button btn btn-warning" onclick="window.location.href='{{ url_for('show_history') }}'">show history</button>
+        <button class="dashboard-button btn btn-warning" onclick="window.location.href='{{ url_for('plot_emotion_distribution') }}'">show emotion distribution</button>
+        <button class="dashboard-button btn btn-warning" onclick="window.location.href='{{ url_for('plot_emotion_over_time') }}'">show emotions over time</button>
+        <button class="dashboard-button btn btn-warning" onclick="window.location.href='{{ url_for('plot_emotion_by_user') }}'">show emotions by user</button>
+        <button class="dashboard-button btn btn-warning" onclick="window.location.href='{{ url_for('predict_emotion_levels') }}'">show emotion level predictions</button>
+        <button class="logout-btn btn btn-dark" onclick="window.location.href='{{ url_for('log_out') }}'">log out</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoFeed = document.getElementById('video-feed');
+            const videoContainer = document.getElementById('video-container');
+            const loadingSpinner = document.getElementById('loading-spinner');
+
+            // Function to handle successful video feed load
+            videoFeed.onload = function() {
+                loadingSpinner.style.display = 'none';
+                videoFeed.style.display = 'block';
+            };
+
+            // Function to handle video feed error
+            videoFeed.onerror = function() {
+                // Keep the spinner or show an error message if the feed fails to load
+                loadingSpinner.innerHTML = '<div class="alert alert-danger" role="alert">Failed to load video feed.</div>';
+            };
+
+            // Set a timeout to handle cases where the video feed doesn't load in a reasonable time
+            setTimeout(function() {
+                if (videoFeed.style.display === 'none') {
+                    loadingSpinner.innerHTML = '<div class="alert alert-danger" role="alert">Video feed is taking too long to load.</div>';
+                }
+            }, 10000);  // 10 seconds timeout
+        });
+    </script>
+</body>
+</html>

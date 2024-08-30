@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>emotion history</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    <h1>emotion history</h1>
+    <div class="record-container">
+        {% for record in history %}
+            <div class="record">
+                <img src="data:image/jpeg;base64,{{ record.face_image }}" alt="Face Image" width="200">
+                <p class="record-detail">face id : {{ record.face_id }}</p>
+                <p class="record-detail">emotion : {{ record.emotion }}</p>
+                <p class="record-detail">{{ record.timestamp }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <a class="back-home-btn btn btn-dark" href="{{ url_for('index') }}">back to home</a>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
