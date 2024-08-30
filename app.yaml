@@ -1,5 +1,4 @@
 runtime: python310  # Specify the Python version (e.g., python310 for Python 3.10)
-env:
 entrypoint: gunicorn -b :$PORT app:app  # Replace `main` with the name of your Flask file (without .py), and `app` with the Flask app instance name
 
 handlers:
